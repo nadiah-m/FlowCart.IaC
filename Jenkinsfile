@@ -16,21 +16,21 @@ pipeline {
             }
         }
 
-        stage('Install Terraform') {
-            steps {
-                script {
-                    // Install Terraform if it is not installed
-                    sh '''
-                    if ! terraform -v; then
-                        echo "Terraform is not installed. Installing..."
-                        curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-                        sudo apt-add-repository "deb https://apt.releases.hashicorp.com stable main"
-                        sudo apt-get update && sudo apt-get install terraform
-                    fi
-                    '''
-                }
-            }
-        }
+        // stage('Install Terraform') {
+        //     steps {
+        //         script {
+        //             // Install Terraform if it is not installed
+        //             sh '''
+        //             if ! terraform -v; then
+        //                 echo "Terraform is not installed. Installing..."
+        //                 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+        //                 sudo apt-add-repository "deb https://apt.releases.hashicorp.com stable main"
+        //                 sudo apt-get update && sudo apt-get install terraform
+        //             fi
+        //             '''
+        //         }
+        //     }
+        // }
 
         stage('Terraform Init') {
             steps {
@@ -49,6 +49,17 @@ pipeline {
                     // Validate Terraform configuration
                     dir("${TF_DIR}") {
                         sh 'terraform validate'
+                    }
+                }
+            }
+        }
+
+        stage('Terraform format') {
+            steps {
+                script {
+                    // Validate Terraform configuration
+                    dir("${TF_DIR}") {
+                        sh 'terraform format'
                     }
                 }
             }
