@@ -27,7 +27,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "vprofile-gitops-123"
+    bucket = "flowcart"
     key    = "terraform.tfstate"
     region = "us-east-1"
   }
