@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    tools {
+        terraform 'Terraform'
+    }
     environment {
         TF_VAR_aws_access_key_id = credentials('aws-access-key-id') // Jenkins credentials for AWS access
         TF_VAR_aws_secret_access_key = credentials('aws-secret-access-key') // Jenkins credentials for AWS secret key
