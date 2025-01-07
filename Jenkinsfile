@@ -44,7 +44,7 @@ pipeline {
             steps {
                 script {
                     dir("${TF_DIR}") {
-                        sh 'terraform format'
+                        sh 'terraform fmt'
                     }
                 }
             }
