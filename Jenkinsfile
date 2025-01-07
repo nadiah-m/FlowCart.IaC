@@ -76,7 +76,7 @@ pipeline {
 
         stage('Deploy to EKS') {
             steps {
-                withAWS(credentials:'AWSCredentials', region: 'us-east-1') {
+                //withAWS(credentials:'AWSCredentials', region: 'us-east-1') {
                     script {
                         dir("${K8_DIR}") {
                             sh "aws eks update-kubeconfig --region ${TF_VAR_region} --name ${EKS_CLUSTER}"
@@ -85,7 +85,7 @@ pipeline {
                             sh 'kubectl apply -f ./'
                         }
                     }
-                }
+                //}
             }
         }
 
