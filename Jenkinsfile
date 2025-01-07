@@ -8,6 +8,7 @@ pipeline {
         // TF_VAR_aws_secret_access_key = credentials('aws-secret-access-key') // Jenkins credentials for AWS secret key
         TF_VAR_region = 'us-east-1' // AWS region
         TF_DIR = './terraform' // Directory where your Terraform code resides
+        K8_DIR = './Kubernetes'
     }
 
     stages {
@@ -68,6 +69,17 @@ pipeline {
                     dir("${TF_DIR}") {
                         // Automatically approve the plan to apply changes
                         sh 'terraform apply -auto-approve tfplan'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to EKS') {
+            steps {
+                script {
+                    dir("${K8_DIR}") {
+                        sh 'aws eks update-kubeconfig --name flowcart-eks'
+                        sh 'kubectl apply -f ./'
                     }
                 }
             }
