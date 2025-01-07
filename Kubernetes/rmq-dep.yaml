@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: rabbitmq
 spec:
-  serviceName: "rabbitmq"
   replicas: 1
   selector:
     matchLabels:
@@ -17,8 +16,10 @@ spec:
         - name: rabbitmq
           image: "rabbitmq:management"
           ports:
-            - containerPort: 5672
-            - containerPort: 15672 # RabbitMQ Management UI
+            - name: rmq-port
+              containerPort: 5672
+            - name: rmq-port-ui
+              containerPort: 15672 # RabbitMQ Management UI
           env:
             - name: RABBITMQ_DEFAULT_USER
               value: "guest"

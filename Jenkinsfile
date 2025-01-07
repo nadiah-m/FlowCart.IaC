@@ -1,14 +1,14 @@
+/* groovylint-disable NestedBlockDepth */
 pipeline {
     agent any
     tools {
         terraform 'Terraform'
     }
     environment {
-        // TF_VAR_aws_access_key_id = credentials('aws-access-key-id') // Jenkins credentials for AWS access
-        // TF_VAR_aws_secret_access_key = credentials('aws-secret-access-key') // Jenkins credentials for AWS secret key
         TF_VAR_region = 'us-east-1' // AWS region
         TF_DIR = './terraform' // Directory where your Terraform code resides
         K8_DIR = './Kubernetes'
+        EKS_CLUSTER = 'flowcart-eks'
     }
 
     stages {
@@ -78,7 +78,9 @@ pipeline {
             steps {
                 script {
                     dir("${K8_DIR}") {
-                        sh 'aws eks update-kubeconfig --name flowcart-eks'
+                        sh "aws eks update-kubeconfig --region ${TF_VAR_region} --name ${EKS_CLUSTER}"
+                        /* groovylint-disable-next-line LineLength */
+                        sh 'kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.3/deploy/static/provider/aws/deploy.yaml'
                         sh 'kubectl apply -f ./'
                     }
                 }

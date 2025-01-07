@@ -15,11 +15,13 @@ spec:
       containers:
         - name: mysql
           image: mysql:5.7
+          #image: arm64v8/mysql
           env:
             - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: db-pass
+              value: "password"
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: app-secret
+              #     key: db-pass
           ports:
             - containerPort: 3306
