@@ -82,7 +82,9 @@ pipeline {
                             sh "aws eks update-kubeconfig --region ${TF_VAR_region} --name ${EKS_CLUSTER}"
                             /* groovylint-disable-next-line LineLength */
                             sh 'kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.3/deploy/static/provider/aws/deploy.yaml'
-                            sh 'kubectl apply -f ./'
+                            sh 'kubectl apply -f ingress.yaml'
+                            sh 'kubectl apply -f frontend-service.yaml'
+                            sh 'kubectl apply -f frontend-dep.yaml'
                         }
                     }
                 //}
