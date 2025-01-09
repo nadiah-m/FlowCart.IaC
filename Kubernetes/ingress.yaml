@@ -12,7 +12,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: flowcart.ndhmlk.site
+    #- host: flowcart.ndhmlk.site
+    - host: ac8505b3d60be41cca625e4e8b646624-1018676891.us-east-1.elb.amazonaws.com
       #flowcart.local
       # flowcart.ndhmlk.site # Replace with your domain
       http:
