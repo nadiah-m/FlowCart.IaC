@@ -4,7 +4,7 @@ metadata:
   name: frontend-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/cors-allow-origin: "http://flowcart.local, http://localhost:8080, http://flowcart.ndhmlk.site"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "http://flowcart.local, http://localhost:8080, http://flowcart.ndhmlk.site, http://ac8505b3d60be41cca625e4e8b646624-1018676891.us-east-1.elb.amazonaws.com"
     nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
     nginx.ingress.kubernetes.io/cors-allow-headers: "Content-Type, Authorization"
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
