@@ -1,23 +1,17 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: frontend-ingress
+  name: flowcart-ingress
+  namespace: default
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/cors-allow-origin: "http://flowcart.local, http://localhost:8080, http://flowcart.ndhmlk.site, http://ac8505b3d60be41cca625e4e8b646624-1018676891.us-east-1.elb.amazonaws.com"
-    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
-    nginx.ingress.kubernetes.io/cors-allow-headers: "Content-Type, Authorization"
-    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "600" # 600 seconds (10 minutes)
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "600" # 600 seconds (10 minutes)
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/group.name: flowcart-ingress
+    alb.ingress.kubernetes.io/healthcheck-path: /
 spec:
-  ingressClassName: nginx
+  ingressClassName: alb # This should match the AWS Load Balancer Controller
   rules:
-    #- host: flowcart.ndhmlk.site
-    - host: ac8505b3d60be41cca625e4e8b646624-1018676891.us-east-1.elb.amazonaws.com
-      #flowcart.local
-      # flowcart.ndhmlk.site # Replace with your domain
+    - host: flowcart.ndhmlk.site # Replace with your actual domain
       http:
         paths:
           - path: /
@@ -27,17 +21,10 @@ spec:
                 name: frontend-service
                 port:
                   number: 80
-          # - path: /api/v1/orders
-          #   pathType: Prefix
-          #   backend:
-          #     service:
-          #       name: order-service
-          #       port:
-          #         number: 8080
-          # - path: /api/stock
-          #   pathType: Prefix
-          #   backend:
-          #     service:
-          #       name: stock-service
-          #       port:
-          #         number: 8081
+          - path: /api/v1/orders
+            pathType: Prefix
+            backend:
+              service:
+                name: order-service
+                port:
+                  number: 8080
