@@ -28,3 +28,10 @@ spec:
                 name: order-service
                 port:
                   number: 8080
+          - path: /api/stock
+            pathType: Prefix
+            backend:
+              service:
+                name: stock-service
+                port:
+                  number: 8081
